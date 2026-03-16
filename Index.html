@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hub Key System</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#060016;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+color:white;
+}
+
+/* LOADING SCREEN */
+
+#loading{
+position:fixed;
+width:100%;
+height:100%;
+background:#060016;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:22px;
+z-index:10;
+}
+
+.loader{
+border:5px solid #222;
+border-top:5px solid #9b5cff;
+border-radius:50%;
+width:50px;
+height:50px;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+/* PANEL */
+
+.panel{
+width:360px;
+background:#0c0220;
+padding:25px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 0 40px #9b5cff;
+border:2px solid #b46cff;
+}
+
+/* PROFILE IMAGE */
+
+.profile{
+width:70px;
+height:70px;
+border-radius:50%;
+object-fit:cover;
+margin-bottom:10px;
+border:2px solid #8a5cff;
+}
+
+/* TITLE */
+
+.title{
+font-size:22px;
+margin-bottom:10px;
+}
+
+/* KEY BOX */
+
+.keybox{
+background:#060016;
+padding:12px;
+border-radius:10px;
+font-size:26px;
+color:#6ee7ff;
+margin-bottom:8px;
+}
+
+/* TIMER */
+
+.timer{
+font-size:14px;
+color:#bbb;
+margin-bottom:15px;
+}
+
+/* BUTTON */
+
+button{
+background:#5b36c9;
+border:none;
+color:white;
+padding:10px 20px;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#7045e6;
+}
+
+/* OWNER */
+
+.owner{
+margin-top:10px;
+font-size:14px;
+color:#ccc;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="loading">
+<div class="loader"></div>
+</div>
+
+<div class="panel" id="panel" style="display:none;">
+
+<img class="profile" src="https://files.catbox.moe/588j6j.png">
+
+<div class="title">Hub Key System</div>
+
+<div class="keybox" id="key">Loading...</div>
+
+<div class="timer" id="timer"></div>
+
+<button onclick="copyKey()">Copy Key</button>
+
+<div class="owner">Owner: PalRyz</div>
+
+</div>
+
+<script>
+
+const PASSWORDS=[
+"PALRYZ01",
+"PALRYZ02",
+"PALRYZ03",
+"PALRYZ04",
+"PALRYZ05"
+];
+
+function getKey(){
+let day=Math.floor(Date.now()/1000/86400);
+return PASSWORDS[day % PASSWORDS.length];
+}
+
+function updateKey(){
+document.getElementById("key").innerText=getKey();
+}
+
+function copyKey(){
+
+let text=document.getElementById("key").innerText;
+
+let textarea=document.createElement("textarea");
+textarea.value=text;
+document.body.appendChild(textarea);
+textarea.select();
+document.execCommand("copy");
+document.body.removeChild(textarea);
+
+alert("Key copied!");
+
+}
+
+function countdown(){
+
+let now=Math.floor(Date.now()/1000);
+let next=(Math.floor(now/86400)+1)*86400;
+let diff=next-now;
+
+let h=Math.floor(diff/3600);
+let m=Math.floor((diff%3600)/60);
+let s=diff%60;
+
+document.getElementById("timer").innerText=
+"Key reset in: "+h+"h "+m+"m "+s+"s";
+
+}
+
+updateKey();
+setInterval(countdown,1000);
+
+/* LOADING SCREEN */
+
+setTimeout(()=>{
+document.getElementById("loading").style.display="none";
+document.getElementById("panel").style.display="block";
+},2000);
+
+</script>
+
+</body>
+</html>
